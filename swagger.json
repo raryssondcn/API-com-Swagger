@@ -1,0 +1,445 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "LibraryManagerSwagger",
+        "description": "Exercicio de gerenciamento da biblioteca usando o Swagger",
+        "contact": {
+            "email": "rarysson.9929@aluno.pr.senac.br"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [{
+        "url": "http://localhost:3333"
+    }],
+    "tags": [{
+        "name": "books",
+        "description": "Livros disponíveis dentro da biblioteca"
+    },
+    {
+        "name": "loans",
+        "description": "É possível realizar empréstimos e devoluções dos livros"
+    },
+    {
+        "name": "users",
+        "description": "Pessoas cadastradas no sistema, podendo usar as funcionalidades"
+    }
+],
+"paths": {
+    "/users": {
+        "post": {
+            "tags": ["users"],
+            "summary": "Novo usuário",
+            "description": "Cadastra um novo usuário a partir das informações básicas",
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#components/schemas/User"
+                        },
+                        "examples": {
+                            "user": {
+                                "value":{
+                                    "name": "Rarysson",
+                                    "email": "rarysson@email.com",
+                                    "telefone": "41 98877-6655"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "400": {
+                    "description": "Usuário já cadastrado"
+                },
+                   "200": {
+                    "description": "Usuário cadastrado",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "items": {
+                                    "$ref": "#components/schemas/User"
+                                    }
+                                }
+                            } 
+                        
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["users"],
+                "summary": "Usuarios",
+                "description": "Listar todos os usuários",
+                "responses": {
+                    "200":{
+                        "description": "Operação realizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"object",
+                                    "items": {
+                                        "$ref": "#components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description": "Erro ao listar"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Atualizar Usuário",
+                "description": "Atualizar os dados de um usuário ja existente",
+                "requestBody":{
+                    "description": "Inserir dados que deseja atualizar",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Atualizado com sucesso"
+                    }
+                }
+            },
+            "delete":{
+            "tags": ["users"],
+            "summary": "Deletar Usuário",
+            "description": "Deleta um usuario a partir do ID",
+            "parameters": [{
+                "name": "api_key",
+                "in": "header",
+                "description": "",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "userID",
+                "in": "path",
+                "description": "Insira o ID",
+                "schema":{
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        ],
+        "responses":{
+            "400":{
+                "description": "Não foi possivel deletar"
+            }
+        }
+    }
+        },
+        "/users/FindById": {
+            "get":{
+                "tags":["users"],
+                "summary": "UsuarioID",
+                "description": "Identificar um usuario pelo ID",
+                "parameters": [{
+                    "name": "userID",
+                    "in": "path",
+                    "description": "Retorna ID do usuário",
+                    "schema":{
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "description": "Operação realizada com sucesso",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#components/schemas/User"
+                                }
+                            }
+
+                        }
+                    },
+                    "400":{
+                        "description": "Id invalido"
+                    },
+                    "404": {
+                        "description": "Usuario não encontrado"
+                    }
+                }
+            }
+        },
+        "/books": {
+            "post": {
+                "tags": ["books"],
+                "summary": "Novo Livro",
+                "description": "Cadastra um novo Livro a partir das informações básicas",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#components/schemas/User"
+                            },
+                            "examples": {
+                                "user": {
+                                    "value":{
+                                        "title": "O pequeno Principe",
+                                        "author": "Antoine the Saint",
+                                        "category": "Novela",
+                                        "pageNumber": "254"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Livro já cadastrado"
+                    },
+                       "200": {
+                        "description": "Livro cadastrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "$ref": "#components/schemas/Book"
+                                        }
+                                    }
+                                } 
+                            
+                            }
+                        }
+                    }
+                },
+                "get": {
+                    "tags": ["books"],
+                    "summary": "Livros",
+                    "description": "Listar todos os Livros",
+                    "responses": {
+                        "200":{
+                            "description": "Operação realizada com sucesso",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type":"object",
+                                        "items": {
+                                            "$ref": "#components/schemas/Book"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "400":{
+                            "description": "Erro ao listar"
+                        }
+                    }
+                },
+                "put": {
+                    "tags": [
+                        "books"
+                    ],
+                    "summary": "Atualizar Livro",
+                    "description": "Atualizar os dados de um livro ja existente",
+                    "requestBody":{
+                        "description": "Inserir dados que deseja atualizar",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#components/schemas/Book"
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": {
+                            "description": "Atualizado com sucesso"
+                        },
+                        "400": {
+                            "description": "Erro ao atualizar"
+                        },
+                        "404": {
+                            "description": "Livro não encontrado"
+                        }
+                    }
+                },
+                "delete": {
+                    "tags": ["books"],
+                    "summary": "Deletar Livro",
+                    "description": "Deleta um Livro a partir do ID",
+                    "parameters": [{
+                        "name": "api_key",
+                        "in": "header",
+                        "description": "",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "bookID",
+                        "in": "path",
+                        "description": "Deleta um livro a partir do ID",
+                        "schema":{
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses":{
+                    "400":{
+                        "description": "Não foi possivel deletar"
+                    }
+                }
+            }
+                },
+                "/books/FindById": {
+                    "get":{
+                        "tags":["books"],
+                        "summary": "livroID",
+                        "description": "Identificar um livro pelo ID",
+                        "parameters": [{
+                            "name": "bookID",
+                            "in": "path",
+                            "description": "Retorna ID do livro",
+                            "schema":{
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        }],
+                        "responses":{
+                            "200":{
+                                "description": "Operação realizada com sucesso",
+                                "content":{
+                                    "application/json":{
+                                        "schema":{
+                                            "$ref":"#components/schemas/Book"
+                                        }
+                                    }
+        
+                                }
+                            },
+                            "400":{
+                                "description": "Id invalido"
+                            },
+                            "404": {
+                                "description": "Usuario não encontrado"
+                            }
+                        }
+                    }
+                },
+                "/loan": {
+                    "patch": {
+                        "tags": ["loans"],
+                        "summary": "Emprestar",
+                        "description": "Emprestar um livro para um usuário cadastrado",
+                        "parameters": [{
+                            "name": "userID",
+                            "in": "path",
+                            "description": "Insira o ID do usuário",
+                            "schema": {
+                                "type":"integer",
+                                "format":"int64"
+                            }
+                        },
+                        {
+                            "name": "bookID",
+                            "in":"path",
+                            "description":"Insira o ID do livro",
+                            "schema": {
+                                "type":"integer",
+                                "format":"int64"
+                            }
+                        }
+                    ],
+                    "responses":{
+                        "400":{
+                            "description":"Não foi possivel emprestar"
+                        },
+                        "404":{
+                            "description":"Livro ou Usuario não encontrado"
+                        },
+                        "200":{
+                            "description": "Emprestado",
+                            "content":{
+                                "application/json":{
+                                    "schema":{
+                                        "$ref": "#components/schemas/Book"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    }
+                },
+                "/return": {
+                    "patch": {
+                        "tags": ["loans"],
+                        "summary": "Devolver",
+                        "description": "Devolver um livro já emprestado",
+                        "parameters":[{
+                            "name": "userID",
+                            "in": "path",
+                            "description": "Insira o ID do usuário",
+                            "schema":{
+                                "type":"integer",
+                                "format":"int64"
+                            }
+                        },
+                            {
+                                "name":"bookID",
+                                "in": "path",
+                                "description": "Insira o ID do livro",
+                                "schema":{
+                                    "type":"integer",
+                                    "format":"int64"
+                                }
+                            }
+                    ]
+                    }
+                }
+        },
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                },
+                    "email": {
+                        "type": "string"
+                },
+                    "telefone": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Book": {
+                "type": "object",
+                "properties":{
+                    "title": {
+                        "type": "string"
+                    },
+                    "author": {
+                        "type": "string"
+                    },
+                    "category": {
+                        "type": "string"
+                    },
+                    "pageNumber": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
