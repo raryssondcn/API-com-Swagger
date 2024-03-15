@@ -403,7 +403,25 @@
                                     "format":"int64"
                                 }
                             }
-                    ]
+                    ],
+                    "responses":{
+                        "200":{
+                            "description": "Devolvido",
+                            "content":{
+                                "application/json":{
+                                    "schema":{
+                                        "$ref":"#components/schemas/Book"
+                                    }
+                                }
+                            }
+                        },
+                        "400":{
+                            "description": "Erro ao devolver"
+                        },
+                        "404":{
+                            "description":"Livro ou Usuario não encontrado"
+                        }
+                    }
                     }
                 }
         },
